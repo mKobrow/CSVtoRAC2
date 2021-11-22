@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+    <appSettings>
+        <add key="wettkampfname" value="Ergo Landesmeisterschaft 2021" />
+        <add key="anzahl_ergos" value="8" />
+    </appSettings>
+</configuration>

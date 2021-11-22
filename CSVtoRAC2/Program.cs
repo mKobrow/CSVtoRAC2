@@ -8,6 +8,13 @@ using System.Text;
 namespace CSVtoRAC2 {
     class Program {
         static void Main(string[] args) {
+            if (args.Length == 0)
+            {
+                Console.Error.WriteLine("Zum Starten des Programms bitte die Meldedatei auf die .exe ziehen.");
+                Console.Error.WriteLine("Beliebige Taste zum Beenden drücken.");
+                Console.Read();
+                return;
+            }
             csvReader csv = new csvReader(args[0]);
             List<headerObject> races = csv.GetRaces();
 
@@ -29,6 +36,9 @@ namespace CSVtoRAC2 {
                 
                 File.WriteAllText("RaceFiles\\" + race.getFilename(), jsonString, Encoding.UTF8);
             }
+
+            csvWriter csvWriter = new csvWriter("startgelder.csv");
+            csvWriter.WriteFees(csv.StartingFee, csv.GetCompetitorsCount());
         }
     }
 }

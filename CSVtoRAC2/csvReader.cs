@@ -9,11 +9,14 @@ namespace CSVtoRAC2
     {
         private List<headerObject> races;
         private List<string[]> data;
+        private Dictionary<string, int> competitorsCount;
+        public int StartingFee { get; }
 
         public csvReader (string filename)
         {
             this.races = new List<headerObject>();
             this.data = new List<string[]>();
+            this.competitorsCount = new Dictionary<string, int>();
             string[] lines = File.ReadAllLines(filename, Encoding.Latin1);
 
             foreach (var line in lines)
@@ -21,6 +24,7 @@ namespace CSVtoRAC2
                 data.Add(line.Split(";"));
             }
 
+            this.StartingFee = Int32.Parse(data[0][2]);
             string event_name = data[0][0];
             int i = 4;
 
@@ -49,6 +53,17 @@ namespace CSVtoRAC2
                             laneNumber, 
                             $"{data[i][2]} {data[i][1]} ({data[i][4]})", 
                             racenumber.ToString()));
+                        
+                        // Update Count of Competitors
+                        if (competitorsCount.ContainsKey(data[i][4]))
+                        {
+                            competitorsCount[data[i][4]] += 1;
+                        }
+                        else
+                        {
+                            competitorsCount[data[i][4]] = 1;
+                        }
+
                         laneNumber += 1;
                         i += 1;
                     }
@@ -62,6 +77,11 @@ namespace CSVtoRAC2
         public List<headerObject> GetRaces ()
         {
             return races;
+        }
+
+        public Dictionary<string, int> GetCompetitorsCount()
+        {
+            return competitorsCount;
         }
     }
 }
